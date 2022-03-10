@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         binding.bPerson.setOnClickListener {
             //思考帶東西回來之類
         }
+            //
         //三顆按鈕的事情
     }
 }
