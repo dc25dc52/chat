@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat">
         <activity
+            android:name=".UserDataActivity"
+            android:exported="false" />
+        <activity
             android:name=".PickActivity"
             android:exported="false" />
         <activity
@@ -19,7 +22,7 @@
             android:name=".RoomActivity"
             android:exported="false" />
         <activity
-            android:name=".SinginActivity"
+            android:name=".SignUpActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
