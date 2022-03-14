@@ -35,8 +35,6 @@ class LoginActivity : AppCompatActivity() {
         var pwd1  ="123456"
         if(username.trim().length>=4 && password.trim().length>=4
             &&username.trim().length<=20 &&password.trim().length<=12){
-
-
         if(user1==username && pwd1 ==password){
             Log.d(TAG, "b_login: 登陸帳號成功")
             //傳遞使用者資訊至首頁上方
@@ -50,9 +48,7 @@ class LoginActivity : AppCompatActivity() {
             Log.d(TAG, "b_login: 登陸帳號失敗")
         }
         }else{
-            Log.d(TAG, "verify(): # 帳號：請輸入4-20位字母或數字\n" +
-                    "\n" +
-                    " # 密碼：請輸入6-12位字母或數字")
+            Log.d(TAG, "verify(): # 帳號：請輸入4-20位字母或數字+ 密碼：請輸入6-12位字母或數字")
         }
     }
 }
