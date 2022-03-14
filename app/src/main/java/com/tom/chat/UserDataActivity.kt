@@ -16,13 +16,14 @@ class UserDataActivity : AppCompatActivity() {
     lateinit var binding :ActivityUserDataBinding
     var TAG = UserDataActivity::class.java.simpleName
     companion object{
-        var name = ""
+        var name :String? ="無"
     }
     var pq = registerForActivityResult(//註冊將要執行甚麼功能
-       NameContract1()){ result ->
-        Log.d(TAG, ": $result")
+        NameContract1()){ result ->
+        Log.d(TAG, "useradat測試: $result")
 //
-   }
+    }
+
 //    var personForUserData = registerForActivityResult(MainActivity.NameContract1()){
 //    }
 
@@ -30,20 +31,20 @@ class UserDataActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityUserDataBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        println("user oncrate被執行")
     //val username = intent.getStringExtra("PERSONDATA")
     //println("輸出 $username")
-
-
-
+         name = intent.getStringExtra("PERSONDATA")
+        Log.d(TAG, "onCreate: $name")
+        binding.tvAcc.text="陽光宅男"
+        binding.tvId.text="$name"
+        //pq.launch(null)
     }
-        fun tt(view:View){
-            binding.tvAcc.text="aaa $name"
-            binding.tvId.text="weidddd"
-            println("04us")
-        }
+
     class NameContract1:ActivityResultContract<Unit,String>(){
         //創建意圖
         override fun createIntent(context: Context, input: Unit?): Intent {
+            println("createIntentcreateIntentcreateIntentcreateIntent")
             return Intent(context,MainActivity::class.java)
         }
         //接受意圖並處理
