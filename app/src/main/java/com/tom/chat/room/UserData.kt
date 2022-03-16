@@ -5,11 +5,11 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 
-@Entity(tableName = UserDataBase.TABLENAME)
+@Entity
 class UserData(
-
+ //閃退 auto
     @PrimaryKey
-    var id :Int= 5,
+    val id: Int,
     @NonNull
     var nikeneme :String,
     @NonNull
@@ -19,6 +19,7 @@ class UserData(
     @NonNull
     var picture : Byte
     ){
-
+//    @PrimaryKey
+//    var id :Long =0
 
 }

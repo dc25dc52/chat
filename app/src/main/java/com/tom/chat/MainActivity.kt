@@ -17,7 +17,7 @@ import kotlin.concurrent.thread
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var TAG = MainActivity::class.java.simpleName
-
+    lateinit var database : UserDataBase
     //static
     companion object{//判斷是否已登陸
        var userStatus = false
@@ -40,10 +40,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val ddd = com.tom.chat.room.UserData(1,"nikename","userid","pwd",10)
-        Thread{
-            UserDataBase.getInstance(this)!!.userDao()?.insert(ddd)
-        }.start()
+        val ddd = UserData(1,"nikename","userid","pwd",0)
+        database = Room.databaseBuilder(this,
+            UserDataBase::class.java, "trans.db")
+            .build()
+        thread {
+            database.userDao().insert(ddd)
+        }
+
+
         userStatus = intent.getBooleanExtra("st",false)//用來判斷登陸狀態
 
                setupFuctions() //導覽功能 設置功能
