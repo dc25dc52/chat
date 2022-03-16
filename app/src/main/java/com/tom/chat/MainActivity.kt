@@ -8,7 +8,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.room.Room
 import com.tom.chat.databinding.ActivityMainBinding
+import com.tom.chat.room.UserData
+import com.tom.chat.room.UserDataBase
+import kotlin.concurrent.thread
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -36,8 +40,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val ddd = com.tom.chat.room.UserData(1,"nikename","userid","pwd",10)
+        Thread{
+            UserDataBase.getInstance(this)!!.userDao()?.insert(ddd)
+        }.start()
         userStatus = intent.getBooleanExtra("st",false)//用來判斷登陸狀態
+
                setupFuctions() //導覽功能 設置功能
+
     }
 
     fun setupFuctions() {//個人按鈕 跳轉
