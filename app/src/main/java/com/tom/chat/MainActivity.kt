@@ -13,14 +13,15 @@ import com.tom.chat.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     var TAG = MainActivity::class.java.simpleName
+
+    //static
     companion object{//判斷是否已登陸
        var userStatus = false
         var username = ""
     }
 
     var personResultLaunchar = registerForActivityResult(    //註冊將要執行甚麼功能
-        NameContract()){result ->
-        //ActivityResultContracts.StartActivityForResult()){ result ->  //跳轉頁面並回傳資料
+        NameContract()){result ->  //ActivityResultContracts.StartActivityForResult()){ result ->  //跳轉頁面並回傳資料
         Log.d(TAG, " $result")
         binding.textView2.text = "用戶：$result"
         username = result
@@ -35,37 +36,22 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setupFuctions()
+        userStatus = intent.getBooleanExtra("st",false)//用來判斷登陸狀態
+               setupFuctions() //導覽功能 設置功能
     }
-    fun setupFuctions() {
-            binding.bPerson.setOnClickListener { //思考帶東西回來之類
+
+    fun setupFuctions() {//個人按鈕 跳轉
+            binding.bPerson.setOnClickListener {
                 if(userStatus==true) { //判斷登陸狀態選擇個人頁面
-                println("狀態登陸")
-                    ///這裡沒有正常發送
                     val personData = Intent(this,UserDataActivity::class.java)
-                    personData.putExtra("PERSONDATA","wei")
-//                    setResult(RESULT_OK,personData)
+                    personData.putExtra("PERSONDATA","$username")
                     startActivity(personData)
                     finish() //關閉
-                    //personForUserData2.launch(
-                        //Intent(this,LoginActivity::class.java)
-                       // null
-                   // )
-//                    personForUserData2.launch(
-//                        //Intent(this,LoginActivity::class.java)
-//                        null
-//                    )
                 }else {
-                    println("狀態未登陸")
-                    //val intent = Intent(this, LoginActivity::class.java)
-                    personResultLaunchar.launch(
-                        //Intent(this,LoginActivity::class.java)
-                        null
-                    )
+                    println("狀態：未登陸")
+                    personResultLaunchar.launch(null)
                 }
             }
-            //
-            //三顆按鈕的事情
             binding.bSearch.setOnClickListener {
             }
             binding.bHome.setOnClickListener {
@@ -79,7 +65,6 @@ class MainActivity : AppCompatActivity() {
         }
         //接受意圖並處理
         override fun parseResult(resultCode: Int, intent: Intent?): String {
-            println("test")
             if(resultCode == RESULT_OK) {
                 var personData = intent?.getStringExtra("PERSONDATA")
                 Log.d(TAG, "parseResult首頁獲取用戶資訊: $personData ")

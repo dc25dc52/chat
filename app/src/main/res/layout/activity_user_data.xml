@@ -10,10 +10,10 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="146dp"
-        android:layout_marginEnd="88dp"
+        android:layout_marginTop="140dp"
+        android:layout_marginEnd="104dp"
 
-        android:text="TextView"
+        android:text="會員資訊"
         android:textSize="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,32 +23,34 @@
         android:id="@+id/tv_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:layout_marginEnd="236dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="100dp"
         android:text="暱稱："
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <TextView
         android:id="@+id/tv_acc"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="267dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="100dp"
         android:text="帳號"
         android:textSize="30dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_id" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/b_signout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
-        android:layout_marginEnd="231dp"
+        android:layout_marginTop="84dp"
+        android:layout_marginEnd="140dp"
         android:onClick="tt"
-        android:text="Button"
+        android:text="登出"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tv_acc" />
 </androidx.constraintlayout.widget.ConstraintLayout>

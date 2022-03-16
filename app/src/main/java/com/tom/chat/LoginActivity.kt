@@ -21,14 +21,20 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.bLogin.setOnClickListener {
-            verify()
+            login()
+        }
+        binding.bRegister.setOnClickListener {
+            register()
         }
     }
 //    fun b_login(view: View){
 //
 //    }
-
-    fun verify (){
+    fun register(){
+        var a = Intent(this,RegisterActivity::class.java)
+        startActivity(a)
+    }
+    fun login (){
         var username = binding.tAcc.text.toString()
         var password = binding.tPwd.text.toString()
         var user1 = "weiru"
@@ -40,6 +46,7 @@ class LoginActivity : AppCompatActivity() {
             //傳遞使用者資訊至首頁上方
             val personData = Intent()
             personData.putExtra("PERSONDATA",username)
+            println("login: $username")
             setResult(RESULT_OK,personData)
             finish() //關閉
             //perosonResultLaunchar.launch(null)
