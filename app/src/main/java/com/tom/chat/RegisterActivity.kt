@@ -2,12 +2,12 @@ package com.tom.chat
 
 import android.content.Context
 import android.content.Intent
+import android.os.AsyncTask
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.service.autofill.UserData
 import androidx.activity.result.contract.ActivityResultContract
 import com.tom.chat.databinding.ActivityRegisterBinding
-import com.tom.chat.room.UserDataBase
+import com.tom.chat.room.*
 import kotlin.concurrent.thread
 
 class RegisterActivity : AppCompatActivity() {
@@ -31,13 +31,19 @@ class RegisterActivity : AppCompatActivity() {
 
         if(userid.trim().length>=4 && pwd.trim().length>=4
             &&userid.trim().length<=20 &&pwd.trim().length<=12) {
-                println("符合")
+            val ddd =UserData(nikename,userid,pwd,0)
+
+            thread {
+                UserDataBase.getInstance(this)?.userDao()?.insert(ddd)
+            }
+            println("insert成功")
+            var a = Intent(this,LoginActivity::class.java)
+            startActivity(a)
 
         }else{
             println("nononono")
         }
-
-         }
+    }
     }
     //步驟一
     class NameContract : ActivityResultContract<Unit,String>(){

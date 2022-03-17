@@ -26,7 +26,37 @@ class LoginActivity : AppCompatActivity() {
         binding.bRegister.setOnClickListener {
             register()
         }
+        binding.bottomNavBar.setOnItemReselectedListener { item ->
+            when(item.itemId) {
+                R.id.n_person -> {
+//                    if(MainActivity.userStatus ==true) { //判斷登陸狀態選擇個人頁面
+//                        val personData = Intent(this,UserDataActivity::class.java)
+//                        personData.putExtra("PERSONDATA","${MainActivity.username}")
+//                        startActivity(personData)
+//                        finish() //關閉
+//                    }else {
+//                        println("狀態：未登陸")
+//                        personResultLaunchar.launch(null)
+//                    }
+                    true
+                }
+                R.id.n_home -> {
+                    println("hell")
+
+//                    supportFragmentManager.beginTransaction().run {
+//                        replace(R.id.my_container, fragments[0])
+//                    }
+                    true
+                }
+                R.id.n_search -> {
+                    println("n_search")
+                    true
+                }
+
+                else -> true
+            }}
     }
+
 //    fun b_login(view: View){
 //
 //    }

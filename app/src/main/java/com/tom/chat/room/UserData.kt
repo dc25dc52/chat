@@ -8,8 +8,8 @@ import androidx.room.PrimaryKey
 @Entity
 class UserData(
  //閃退 auto
-    @PrimaryKey
-    val id: Int,
+//    @PrimaryKey
+//    val id: Int,
     @NonNull
     var nikeneme :String,
     @NonNull
@@ -19,7 +19,8 @@ class UserData(
     @NonNull
     var picture : Byte
     ){
-//    @PrimaryKey
-//    var id :Long =0
+    @PrimaryKey
+    var id =0
+
 
 }
