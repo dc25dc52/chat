@@ -8,13 +8,19 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.URL
 
-class ChatViewModel : ViewModel() {
-    val chatRooms = MutableLiveData<List<Lightyear>>()
-    fun getAllRooms() {
+
+class HPViewModel:ViewModel() {
+    val talkRooms = MutableLiveData<List<Lightyear>>()
+    fun getALLRooms(){
+
         viewModelScope.launch(Dispatchers.IO) {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
+            println("qq+$json")
             val response = Gson().fromJson(json, ChatRooms::class.java)
-            chatRooms.postValue(response.result.lightyear_list)
+            talkRooms.postValue(response.result.lightyear_list)
         }
     }
+
+
+
 }
