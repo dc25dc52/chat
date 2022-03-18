@@ -1,5 +1,7 @@
 package com.tom.chat
 
+import android.R
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,10 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
+import androidx.room.Room
 import com.tom.chat.databinding.FragmentRigisterBinding
+import com.tom.chat.room.UserData
+import com.tom.chat.room.UserDataBase
+import kotlin.concurrent.thread
+
 
 class RegisterFragment :Fragment() {
     lateinit var binding:FragmentRigisterBinding
+    val fragments = mutableListOf<Fragment>()
     val selectPictureFromGallery =
         registerForActivityResult(ActivityResultContracts.GetContent()){
                 uri ->
@@ -35,6 +45,7 @@ class RegisterFragment :Fragment() {
             pickFromGallery()
         }
         binding.bSend.setOnClickListener {
+
             sendData()
         }
     }
@@ -42,6 +53,9 @@ class RegisterFragment :Fragment() {
         selectPictureFromGallery.launch("image/*")
 
     }
+
+
+
     fun sendData(){
         val nikename = binding.tvName.text.toString()
         val userid = binding.tvUserid.text.toString()
@@ -50,16 +64,27 @@ class RegisterFragment :Fragment() {
         if(userid.trim().length>=4 && pwd.trim().length>=4
             &&userid.trim().length<=20 &&pwd.trim().length<=12) {
 
+
+
+
             println("insert成功")
-//            val intent=Intent(requireContext(),LoginFragment::class.java)
-//            startActivity(intent)
-//            var a = Intent(requireContext(),LoginFragment::class.java)
-//            startActivity(a)
+            var da = UserData(nikename,userid,pwd,0)
+            Thread{
+                UserDataBase.getInstance(requireContext())!!.userDao().insert(da)
+
+            }.start()
+            val intent= Intent(requireContext(),MainActivity::class.java)
+            startActivity(intent)
+
+
+
+
 
 
         }else{
             println("nononono")
         }
+
     }
 
 

@@ -4,14 +4,15 @@
 
     <item
         android:id="@+id/n_home"
-        android:icon="@android:drawable/ic_dialog_alert"
+        android:icon="@drawable/tab_home"
         android:title="首頁" />
+        android:icon="@drawable/tab_home"
     <item
         android:id="@+id/n_search"
-        android:icon="@android:drawable/checkbox_on_background"
+        android:icon="@drawable/tab_search"
         android:title="搜尋" />
     <item
         android:id="@+id/n_person"
-        android:icon="@android:drawable/btn_star_big_on"
+        android:icon="@drawable/tab_personal"
         android:title="個人" />
 </menu>

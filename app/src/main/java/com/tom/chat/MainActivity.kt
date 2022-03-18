@@ -2,14 +2,17 @@ package com.tom.chat
 
 import android.os.Bundle
 import android.util.Log
-import androidx.activity.viewModels
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.room.Room
 import com.tom.chat.databinding.ActivityMainBinding
+import com.tom.chat.room.UserData
+import com.tom.chat.room.UserDataBase
+import kotlin.concurrent.thread
 
 
-
-class MainActivity : AppCompatActivity(){
+class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
     lateinit var binding: ActivityMainBinding
     var TAG = MainActivity::class.java.simpleName
     val fragments = mutableListOf<Fragment>()
@@ -23,7 +26,7 @@ class MainActivity : AppCompatActivity(){
 //    var personResultLaunchar = registerForActivityResult(    //註冊將要執行甚麼功能
 //        NameContract()){result ->  //ActivityResultContracts.StartActivityForResult()){ result ->  //跳轉頁面並回傳資料
 //        Log.d(TAG, " $result")
-//        binding.textView2.text = "用戶：$result"
+//        binding.textView2.text = "用戶：$Gdata"
 //        username = result
 //        userStatus=true
 //    }
@@ -38,15 +41,42 @@ class MainActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        var dataBase = Room.databaseBuilder(this, UserDataBase::class.java,
+            "user5.db").build()
+
+    //    dataBase.userDao().insert(da)
+//        thread {
+//            dataBase.userDao().insert(da)
+//        }.start()
+
+
+        Log.d("MainActivity1111","传递来的数据是---$Gdata")
+        if(Gdata.length != 0){
+            binding.textView6.setVisibility(View.VISIBLE)
+            binding.textView6.text = "用戶：$Gdata"
+        }else{
+            binding.textView6.text = "用戶：訪客"
+        }
 
       //  userStatus = intent.getBooleanExtra("st",false)//用來判斷登陸狀態
-
+//        val bundle = Bundle()
+//        bundle.putString("data",Gdata)
+//        val fragment = LiveHomeFragment()
+//        fragment.arguments = bundle
+//        val manager = supportFragmentManager
+//        val transaction  = manager.beginTransaction()
+//        transaction.replace(R.id.recycler,fragment)
+//        transaction.commit()
        initFragments()
 
     binding.bottomNavBar.setOnItemSelectedListener {
             item ->
         when(item.itemId){
             R.id.n_home ->{
+                if(Gdata.length !=0){
+                    binding.textView6.setVisibility(View.VISIBLE)
+                    binding.textView6.text = "用戶：$Gdata"
+                }
                 supportFragmentManager.beginTransaction().run {
                     replace(R.id.my_container,fragments[1])
                     commit()
@@ -54,11 +84,27 @@ class MainActivity : AppCompatActivity(){
                 }}
             R.id.n_search->{true}
             R.id.n_person->{
-                supportFragmentManager.beginTransaction().run {
-                    replace(R.id.my_container,fragments[0])
-                    commit()
-                    true
-                }
+
+                    if(Gdata.length ==0){
+                        supportFragmentManager.beginTransaction().run {
+                            binding.textView6.setVisibility(View.INVISIBLE)
+                            replace(R.id.my_container,fragments[0])
+                            commit()
+                            true
+                        }
+                    }else{
+//                        val fu = UserDataFragment()
+//                        val bundle = Bundle()
+//                        bundle.putString("test", "test")
+//                        fu.setArguments(bundle)
+                        supportFragmentManager.beginTransaction().run {
+                            binding.textView6.setVisibility(View.INVISIBLE)
+                            replace(R.id.my_container,fragments[2])
+                            commit()
+                            true
+                        }
+                    }
+
 
             }
             else ->true
@@ -74,10 +120,14 @@ class MainActivity : AppCompatActivity(){
 //        }
 //        viewModel.getAllRooms()
     }
+    fun getTitles(): String? {
+        return Gdata
+    }
+
     private fun initFragments(){
         fragments.add(0,LoginFragment())
-        fragments.add(1, HomePopulerFragment())
-
+        fragments.add(1, LiveHomeFragment())
+        fragments.add(2, UserDataFragment())
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.my_container, fragments[1])
             commit()
@@ -137,7 +187,13 @@ class MainActivity : AppCompatActivity(){
 //        }
 //    }
     }
+    companion object {
+        private var Gdata: String = ""
+    }
 
+    override fun sendData(data: String) {
+        Gdata = data
+    }
 
 
 }

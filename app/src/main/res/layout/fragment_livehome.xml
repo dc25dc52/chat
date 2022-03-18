@@ -5,24 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/populer_recycler"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:id="@+id/recycler"
+        android:layout_width="383dp"
+        android:layout_height="635dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/space"
+        tools:layout_editor_absoluteX="12dp" />
+
+    <Space
+        android:id="@+id/space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="57dp"
+        android:layout_marginBottom="674dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_home_hot" />
-
-    <TextView
-        android:id="@+id/tv_home_hot"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Wellcome Home Master"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textColor="#770404"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

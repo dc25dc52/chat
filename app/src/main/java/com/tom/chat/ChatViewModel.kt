@@ -6,21 +6,19 @@ import androidx.lifecycle.viewModelScope
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.json.JSONException
+import org.json.JSONObject
 import java.net.URL
+import kotlin.concurrent.thread
 
-
-class HPViewModel:ViewModel() {
-    val talkRooms = MutableLiveData<List<Lightyear>>()
-    fun getALLRooms(){
-
+class ChatViewModel : ViewModel() {
+    val chatRooms = MutableLiveData<List<Lightyear>>()
+    fun getAllRooms(){
         viewModelScope.launch(Dispatchers.IO) {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
-            println("qq+$json")
-            val response = Gson().fromJson(json, ChatRooms::class.java)
-            talkRooms.postValue(response.result.lightyear_list)
+
+         val response = Gson().fromJson(json, ChatRooms::class.java)
+            chatRooms.postValue(response.result.lightyear_list)
         }
     }
-
-
-
 }
