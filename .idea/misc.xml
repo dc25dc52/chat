@@ -23,6 +23,23 @@
         <entry key="..\:/Users/dc25d/AndroidStudioProjects/chat6/app/src/main/res/layout/login_fragment.xml" value="0.1693840579710145" />
         <entry key="..\:/Users/dc25d/AndroidStudioProjects/chat6/app/src/main/res/layout/row_chatroom.xml" value="0.1693840579710145" />
         <entry key="..\:/Users/dc25d/AndroidStudioProjects/chat6/app/src/main/res/layout/row_hotrooms.xml" value="0.1693840579710145" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/drawable/textview_style.xml" value="0.1" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/activity_main.xml" value="0.18" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/activity_nav.xml" value="0.18931159420289856" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/activity_room.xml" value="0.2151268115942029" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/activity_room_v.xml" value="0.21614583333333334" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/activity_search.xml" value="0.2151268115942029" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/activity_talk_room.xml" value="0.18931159420289856" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/activity_user_data.xml" value="0.2151268115942029" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/content_main.xml" value="0.18931159420289856" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/fragment_livehome.xml" value="0.18931159420289856" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/fragment_oneroom.xml" value="0.15489130434782608" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/fragment_rigister.xml" value="0.422554347826087" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/fragment_userdata.xml" value="0.2667572463768116" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/login_fragment.xml" value="0.2151268115942029" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/row_chatroom.xml" value="0.16530797101449277" />
+        <entry key="..\:/Users/dc25d/AndroidStudioProjects/chatend/app/src/main/res/layout/row_hotrooms.xml" value="0.16530797101449277" />
         <entry key="app/src/main/res/drawable-v24/room_item_round_corner.xml" value="0.1385" />
         <entry key="app/src/main/res/drawable-v24/round_corner_bg.xml" value="0.126" />
         <entry key="app/src/main/res/drawable/button_selector.xml" value="0.1" />

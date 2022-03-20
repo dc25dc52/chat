@@ -16,7 +16,6 @@ class ChatViewModel : ViewModel() {
     fun getAllRooms(){
         viewModelScope.launch(Dispatchers.IO) {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
-
          val response = Gson().fromJson(json, ChatRooms::class.java)
             chatRooms.postValue(response.result.lightyear_list)
         }

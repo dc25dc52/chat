@@ -9,91 +9,147 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.tom.chat.databinding.FragmentLoginBinding
 import com.tom.chat.room.UserDataBase
 
 
 class LoginFragment : Fragment() {
 
+    companion object{
+        var user1 = ""
+        var pwd1 = ""
+    }
     interface SendListener{
         fun sendData(data : String)
     }
 
-    lateinit var binding : FragmentLoginBinding
+    //lateinit var binding : FragmentLoginBinding
     var TAG = LoginFragment ::class.java.simpleName
+    var remember =false
+
+
+    private var _binding: FragmentLoginBinding? = null
+    private val binding get() = _binding!!
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-    binding = FragmentLoginBinding.inflate(inflater)
+        _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
+//        binding = FragmentLoginBinding.inflate(inflater)
+//        return binding.root
     }
 
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val pref = requireContext().getSharedPreferences("chat",Context.MODE_PRIVATE)
+        val checked = pref.getBoolean("rem_username", false)
+        binding.cbRemember.isChecked = checked
+        binding.cbRemember.setOnCheckedChangeListener { compoundButton, checked ->
+            remember = checked
+            pref.edit().putBoolean("rem_username", remember).apply()
+            if (!checked) {
+                pref.edit().putString("USER", "").apply()
+            }
+        }
+        val prefUser = pref.getString("USER", "")
+        if (prefUser != "") {
+            binding.tAcc.setText(prefUser)
+        }
+
+
         binding.bLogin.setOnClickListener {
             login()
         }
         binding.bRegister.setOnClickListener {
             register()
         }
-
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    //    fun b_login(view: View){
-//
-//    }
+    ///方法區
     fun register(){
-       requireActivity().supportFragmentManager.beginTransaction()
-           .replace(R.id.my_container,RegisterFragment()).commit()
+//        findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.my_container,RegisterFragment()).commit()
     }
-    companion object{
-        var user1 = ""
-        var pwd1 = ""
-    }
+
+
     fun login (){
-
-
-
         var username = binding.tAcc.text.toString()
         var password = binding.tPwd.text.toString()
+        var nikename = ""
         if(username.trim().length>=4 && password.trim().length>=4
             &&username.trim().length<=20 &&password.trim().length<=12){
             Thread{
                 var list =  UserDataBase.getInstance(requireContext())!!.userDao().getAll()
                 list?.forEach {
-                    user1 =it.acc.toString()
-                    pwd1  =it.pwd.toString()
+                    user1 =it.acc
+                    pwd1  =it.pwd
+                    nikename = it.nikeneme
                     println("$user1")
                     println("$pwd1")
                     if(user1==username && pwd1 ==password){
-                        Log.d(TAG, "b_login: 登陸帳號成功")
                         //傳遞使用者資訊至首頁上方
-                        val personData = Intent()
-                        personData.putExtra("PERSONDATA",username)
-                        println("login: $username")
                         val Mactivity = context as MainActivity
-                        Mactivity.sendData(username )
+                        Mactivity.sendData(nikename)
+                        //儲存數據
+                        val spf =requireContext().getSharedPreferences("userData", Context.MODE_PRIVATE)
+                        spf.edit()
+                            .putString("nikeName",nikename)
+                            .putString("acc",user1)
+                            .putString("pwd", pwd1)
+                            .apply()
+                        if (remember) {
+                            val pref = requireContext().getSharedPreferences("chat",Context.MODE_PRIVATE)
+                            pref.edit()
+                                .putString("acc", user1)
+                                .apply() //.commit()
+                        }
+                        //切換頁面
+//                        findNavController().navigate(R.id.action_loginFragment_to_liveHomeFragment)
                         val intent=Intent(requireContext(),MainActivity::class.java)
                         startActivity(intent)
-                        //  setResult(AppCompatActivity.RESULT_OK,personData)
-//                finish() //關閉
-                        //perosonResultLaunchar.launch(null)
-                        //perosonResultLaunchar.launch(Intent(this,MainActivity::class.java)) //跳轉登陸頁面
                     }
+//                          切換fragment
+//                        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+//                        transaction.replace(R.id.my_container, UserDataFragment())
+//                            .disallowAddToBackStack()
+//                            .commit()
 
+                         // findNavController().navigate(R.id.action_loginFragment_to_liveHomeFragment)
+                        //  setResult(AppCompatActivity.RESULT_OK,personData)
                 }
 
             }.start()
-            Log.d(TAG, "b_login: 登陸帳號失敗")
+            AlertDialog.Builder(requireContext())
+                .setTitle("錯誤")
+                .setMessage("帳號或密碼輸入錯誤")
+                .setPositiveButton("OK"){d,w ->
+                    binding.tAcc.setText("")
+                    binding.tPwd.setText("")
+                }
+                .show()
         }else{
+           Toast.makeText(requireContext(),"帳號：請輸入4-20位字母或數字+ 密碼：請輸入6-12位字母或數字",Toast.LENGTH_LONG).show()
             Log.d(TAG, "verify(): # 帳號：請輸入4-20位字母或數字+ 密碼：請輸入6-12位字母或數字")
         }
+
     }
+
 
 
 

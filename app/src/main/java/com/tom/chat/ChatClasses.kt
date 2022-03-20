@@ -1,6 +1,7 @@
 package com.tom.chat
 
-
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
 data class ChatRooms(
     val error_code: String,
@@ -12,7 +13,7 @@ data class Result(
     val lightyear_list: List<Lightyear>,
     val stream_list: List<Stream>
 )
-
+@Parcelize
 data class Lightyear(
     val background_image: String,
     val charge: Int,
@@ -32,7 +33,7 @@ data class Lightyear(
     val stream_title: String,
     val streamer_id: Int,
     val tags: String
-)
+):Parcelable
 
 data class Stream(
     val background_image: String,
@@ -79,5 +80,4 @@ data class Info(
     val is_ban: Int,
     val is_guardian: Int,
     val last_login: Int,
-    val level: Int
-)
+    val level: Int)

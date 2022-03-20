@@ -10,23 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat" >
 
-        <!-- <activity -->
-        <!-- android:name=".RegisterActivity" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".UserDataActivity" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".SearchActivity" -->
-        <!-- android:exported="false" /> -->
         <activity
-            android:name=".TalkRoomActivity"
-            android:exported="false" /> <!-- <activity -->
-        <!-- android:name=".SignUpActivity" -->
-        <!-- android:exported="false" /> -->
-        <!-- <activity -->
-        <!-- android:name=".LoginActivity" -->
-        <!-- android:exported="false" /> -->
+            android:name=".Room_V_Activity"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true" >

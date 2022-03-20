@@ -1,7 +1,6 @@
 package com.tom.chat
 
-import android.R
-import android.content.Context
+import android.app.AlertDialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -10,18 +9,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
-import androidx.room.Room
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import com.tom.chat.databinding.FragmentRigisterBinding
 import com.tom.chat.room.UserData
 import com.tom.chat.room.UserDataBase
-import kotlin.concurrent.thread
 
 
 class RegisterFragment :Fragment() {
     lateinit var binding:FragmentRigisterBinding
-    val fragments = mutableListOf<Fragment>()
     val selectPictureFromGallery =
         registerForActivityResult(ActivityResultContracts.GetContent()){
                 uri ->
@@ -30,12 +27,10 @@ class RegisterFragment :Fragment() {
                 uri.toString()
             }
         }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         binding = FragmentRigisterBinding.inflate(inflater)
-        // Inflate the layout for this fragment
-        val s ="ssssss"
-        val uri = Uri.parse(s)
         return binding.root
     }
 
@@ -48,43 +43,48 @@ class RegisterFragment :Fragment() {
 
             sendData()
         }
+        binding.bEnd.setOnClickListener{
+            end()
+        }
     }
-    private fun pickFromGallery(){
+
+    private fun pickFromGallery() {
         selectPictureFromGallery.launch("image/*")
-
     }
 
-
+    fun end(){
+        replaceF(LoginFragment())
+    }
 
     fun sendData(){
         val nikename = binding.tvName.text.toString()
-        val userid = binding.tvUserid.text.toString()
+        val acc = binding.tvUserid.text.toString()
         val pwd = binding.tvPwd.text.toString()
-
-        if(userid.trim().length>=4 && pwd.trim().length>=4
-            &&userid.trim().length<=20 &&pwd.trim().length<=12) {
-
-
-
-
-            println("insert成功")
-            var da = UserData(nikename,userid,pwd,0)
+        if(acc.trim().length>=4 && pwd.trim().length>=6 &&acc.trim().length<=20 &&pwd.trim().length<=12) {
+            var da = UserData(nikename,acc,pwd,0)
             Thread{
                 UserDataBase.getInstance(requireContext())!!.userDao().insert(da)
-
             }.start()
+          replaceF(LoginFragment())
+    println("cccc")
+//            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
             val intent= Intent(requireContext(),MainActivity::class.java)
             startActivity(intent)
-
-
-
-
-
-
         }else{
-            println("nononono")
+            println("失敗")
+            AlertDialog.Builder(requireContext())
+                .setTitle("格式錯誤")
+                .setMessage("請確認帳號與密碼是否格式正確:帳號4~20、密碼6~12")
+                .setPositiveButton("ok",null)
+                .show()
         }
 
+    }
+    fun replaceF(fr : Fragment){
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.my_container, fr)
+            .disallowAddToBackStack()
+            .commit()
     }
 
 
