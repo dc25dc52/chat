@@ -10,9 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Chat" >
 
-        <activity
-            android:name=".Room_V_Activity"
-            android:exported="false" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true" >
