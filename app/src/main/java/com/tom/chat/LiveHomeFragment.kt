@@ -93,9 +93,12 @@ inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolder>() {
     }
     //轉換各自房間
     fun chatRoomClicked(lightyear : Lightyear) {
+        val hide = requireActivity() as MainActivity
         val transaction = requireActivity().supportFragmentManager.beginTransaction()
         transaction.replace(R.id.my_container, OneRoomFragment())
             .disallowAddToBackStack()
             .commit()
+        hide.binding.bottomNavBar.visibility = View.GONE
+
     }
 }

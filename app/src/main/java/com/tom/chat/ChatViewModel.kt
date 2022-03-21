@@ -20,7 +20,9 @@ class ChatViewModel : ViewModel() {
     fun getAllRooms(){
         viewModelScope.launch(Dispatchers.IO) {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
+        //解析了
          val response = Gson().fromJson(json, ChatRooms::class.java)
+            println(response)
             chatRooms.postValue(response.result.lightyear_list)
         }
     }
