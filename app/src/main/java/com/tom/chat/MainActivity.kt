@@ -16,14 +16,18 @@ import com.tom.chat.room.UserDataBase
 
 
 class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
+
+    companion object {
+        private var Gdata: String = "訪客"
+    }
+
     lateinit var binding: ActivityMainBinding
     val fragments = mutableListOf<Fragment>()
-//main
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         var dataBase = Room.databaseBuilder(this, UserDataBase::class.java,
             "user5.db").build()
     Log.d("MainActivity","接收的數據:$Gdata")
@@ -35,70 +39,38 @@ class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
     }else{
         binding.textView.text = "用戶：訪客"
     }
-//        if(Gdata.length != 0){
-//            binding.textView6.setVisibility(View.VISIBLE)
-//            binding.textView6.text = "用戶：$Gdata"
-//        }else{
-//            binding.textView6.text = "用戶：訪客"
-//        }
-
-      //  userStatus = intent.getBooleanExtra("st",false)//用來判斷登陸狀態
-//        val bundle = Bundle()
-//        bundle.putString("data",Gdata)
-//        val fragment = LiveHomeFragment()
-//        fragment.arguments = bundle
-//        val manager = supportFragmentManager
-//        val transaction  = manager.beginTransaction()
-//        transaction.replace(R.id.recycler,fragment)
-//        transaction.commit()
        initFragments()
 
     binding.bottomNavBar.setOnItemSelectedListener {
             item ->
         when(item.itemId){
-            R.id.n_home ->{1
+            R.id.n_home ->{
                 if(Gdata.length !=0){
                     binding.textView.setVisibility(View.VISIBLE)
                     binding.textView.text = "用戶：$Gdata"
                 }
-                supportFragmentManager.beginTransaction().run {
-                    replace(R.id.my_container,fragments[1])
-                    commit()
+                userStateTitle(1)
+                true
+            }
+            R.id.n_search->{
+                    binding.textView.setVisibility(View.INVISIBLE)
+                userStateTitle(3)
                     true
-                }}
-            R.id.n_search->{true}
+                }
             R.id.n_person->{
-        println("點個人$Gdata")
+                binding.textView.setVisibility(View.INVISIBLE)
                     if(Gdata == "訪客"){
-                        println(Gdata)
-                        println("~~~~")
-                        supportFragmentManager.beginTransaction().run {
-                            binding.textView.setVisibility(View.INVISIBLE)
-                            replace(R.id.my_container,fragments[0])
-                            commit()
+                        binding.textView.setVisibility(View.INVISIBLE)
+                        userStateTitle(0)
                             true
-                        }
                     }else{
-//                        val fu = UserDataFragment()
-//                        val bundle = Bundle()
-//                        bundle.putString("test", "test")
-//                        fu.setArguments(bundle)
-                        supportFragmentManager.beginTransaction().run {
-                           binding.textView.setVisibility(View.INVISIBLE)
-                            replace(R.id.my_container,fragments[2])
-                            commit()
+                        userStateTitle(2)
                             true
-                        }
                     }
-
-
             }
             else ->true
         }
-
     }
-
-2
     }
     fun getTitles(): String? {
         return Gdata
@@ -108,15 +80,20 @@ class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
         fragments.add(0,LoginFragment())
         fragments.add(1, LiveHomeFragment())
         fragments.add(2, UserDataFragment())
+        fragments.add(3, SearchFragment())
         supportFragmentManager.beginTransaction().apply {
             replace(R.id.my_container, fragments[1])
             commit()
         }
-
-
     }
-    companion object {
-        private var Gdata: String = "訪客"
+
+    //用來指定頁面跳轉
+    fun userStateTitle(i:Int){
+        supportFragmentManager.beginTransaction().run {
+            replace(R.id.my_container,fragments[i])
+            commit()
+            true
+        }
     }
 
     override fun sendData(data: String) {

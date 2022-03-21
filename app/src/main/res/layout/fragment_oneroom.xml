@@ -35,11 +35,11 @@
         android:inputType="textPersonName"
         android:minHeight="48dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/ib_send"
+        app:layout_constraintEnd_toStartOf="@+id/b_send"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageButton
-        android:id="@+id/ib_out"
+        android:id="@+id/b_out"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -52,7 +52,7 @@
         app:srcCompat="@drawable/logout" />
 
     <ImageButton
-        android:id="@+id/ib_send"
+        android:id="@+id/b_send"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"

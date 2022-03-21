@@ -25,6 +25,7 @@ class LoginFragment : Fragment() {
     companion object{
         var user1 = ""
         var pwd1 = ""
+        var temp = 0
     }
     interface SendListener{
         fun sendData(data : String)
@@ -57,17 +58,21 @@ class LoginFragment : Fragment() {
         binding.cbRemember.isChecked = checked
         binding.cbRemember.setOnCheckedChangeListener { compoundButton, checked ->
             remember = checked
+            println("被執行１")
             pref.edit().putBoolean("rem_username", remember).apply()
             if (!checked) {
-                pref.edit().putString("USER", "").apply()
+                println("被執行ㄉ2")
+                pref.edit().putString("acc", "")
+                pref.edit().putString("pwd", "")
+                    .apply()
             }
         }
-        val prefUser = pref.getString("USER", "")
+        val prefUser = pref.getString("acc", "")
+        val prefUser2 = pref.getString("pwd", "")
         if (prefUser != "") {
             binding.tAcc.setText(prefUser)
+            binding.tAcc.setText(prefUser2)
         }
-
-
         binding.bLogin.setOnClickListener {
             login()
         }
@@ -87,7 +92,6 @@ class LoginFragment : Fragment() {
             .replace(R.id.my_container,RegisterFragment()).commit()
     }
 
-
     fun login (){
         var username = binding.tAcc.text.toString()
         var password = binding.tPwd.text.toString()
@@ -100,8 +104,6 @@ class LoginFragment : Fragment() {
                     user1 =it.acc
                     pwd1  =it.pwd
                     nikename = it.nikeneme
-                    println("$user1")
-                    println("$pwd1")
                     if(user1==username && pwd1 ==password){
                         //傳遞使用者資訊至首頁上方
                         val Mactivity = context as MainActivity
@@ -113,10 +115,12 @@ class LoginFragment : Fragment() {
                             .putString("acc",user1)
                             .putString("pwd", pwd1)
                             .apply()
+                        temp = 1
                         if (remember) {
                             val pref = requireContext().getSharedPreferences("chat",Context.MODE_PRIVATE)
                             pref.edit()
                                 .putString("acc", user1)
+                                .putString("pwd", pwd1)
                                 .apply() //.commit()
                         }
                         //切換頁面
@@ -124,25 +128,17 @@ class LoginFragment : Fragment() {
                         val intent=Intent(requireContext(),MainActivity::class.java)
                         startActivity(intent)
                     }
-//                          切換fragment
-//                        val transaction = requireActivity().supportFragmentManager.beginTransaction()
-//                        transaction.replace(R.id.my_container, UserDataFragment())
-//                            .disallowAddToBackStack()
-//                            .commit()
-
-                         // findNavController().navigate(R.id.action_loginFragment_to_liveHomeFragment)
-                        //  setResult(AppCompatActivity.RESULT_OK,personData)
                 }
-
             }.start()
-            AlertDialog.Builder(requireContext())
-                .setTitle("錯誤")
-                .setMessage("帳號或密碼輸入錯誤")
-                .setPositiveButton("OK"){d,w ->
-                    binding.tAcc.setText("")
-                    binding.tPwd.setText("")
-                }
-                .show()
+            if(temp==0) {
+                AlertDialog.Builder(requireContext())
+                    .setTitle("錯誤")
+                    .setMessage("帳號或密碼輸入錯誤")
+                    .setPositiveButton("OK") { d, w ->
+                        binding.tAcc.setText("")
+                        binding.tPwd.setText("")
+                    }.show()
+            }
         }else{
            Toast.makeText(requireContext(),"帳號：請輸入4-20位字母或數字+ 密碼：請輸入6-12位字母或數字",Toast.LENGTH_LONG).show()
             Log.d(TAG, "verify(): # 帳號：請輸入4-20位字母或數字+ 密碼：請輸入6-12位字母或數字")

@@ -90,15 +90,15 @@ inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolder>() {
     }
 
     fun chatRoomClicked(lightyear : Lightyear) {
-        val parentactivity = requireActivity() as MainActivity
-        requireActivity().supportFragmentManager.beginTransaction().run {
-            replace(R.id.my_container, OneRoomFragment()).commit()
-        }
-
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.my_container, OneRoomFragment())
+            .disallowAddToBackStack()
+            .commit()
+    }
 //        lyviewModel.setroom(lightyear)
 //        val inf = bundle.getParcelable<Lightyear>("room")
 //        Log.d("pref room ", "${inf?.nickname}")
 //        Log.d("to talkActivity clicked", "$bundle")
 
-    }
+
 }
