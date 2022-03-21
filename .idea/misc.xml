@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../layout/custom_preview.xml" value="0.1" />
         <entry key="..\:/Users/dc25d/AndroidStudioProjects/chat2/app/src/main/res/layout/activity_register.xml" value="0.103596757852077" />
         <entry key="..\:/Users/dc25d/AndroidStudioProjects/chat2/app/src/main/res/layout/activity_signup.xml" value="0.103596757852077" />
         <entry key="..\:/Users/dc25d/AndroidStudioProjects/chat6/app/src/main/res/drawable/pic_corner.xml" value="0.197" />
@@ -46,13 +47,15 @@
         <entry key="app/src/main/res/drawable/textview_style.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_login2.xml" value="0.14221014492753623" />
-        <entry key="app/src/main/res/layout/activity_main.xml" value="0.19583333333333333" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.16" />
         <entry key="app/src/main/res/layout/activity_main2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_nav.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_room.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_room_v.xml" value="0.11197916666666667" />
         <entry key="app/src/main/res/layout/activity_signup.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_user_data.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/content_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.18115942028985507" />
         <entry key="app/src/main/res/layout/fragment_livehome.xml" value="0.14" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.18115942028985507" />
@@ -63,6 +66,8 @@
         <entry key="app/src/main/res/layout/heart.xml" value="0.1" />
         <entry key="app/src/main/res/layout/row_chatroom.xml" value="0.15572916666666667" />
         <entry key="app/src/main/res/layout/row_hotrooms.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/row_message.xml" value="0.22" />
+        <entry key="app/src/main/res/layout/row_mgs.xml" value="0.1" />
         <entry key="app/src/main/res/menu/menu_nav.xml" value="0.22" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
       </map>

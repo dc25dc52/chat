@@ -1,22 +1,15 @@
 package com.tom.chat
 
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.room.Room
 import com.tom.chat.databinding.ActivityMainBinding
-import com.tom.chat.room.UserDataBase
 
 
 class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
-
+    //設置初始
     companion object {
         private var Gdata: String = "訪客"
     }
@@ -28,9 +21,9 @@ class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        var dataBase = Room.databaseBuilder(this, UserDataBase::class.java,
-            "user5.db").build()
-    Log.d("MainActivity","接收的數據:$Gdata")
+//        var dataBase = Room.databaseBuilder(this, UserDataBase::class.java,
+//            "user5.db").build()
+    Log.d("MainActivity","Gdata:$Gdata")
 
     //初始設置用戶狀態
     if(Gdata.length != 0){
@@ -72,16 +65,19 @@ class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
         }
     }
     }
+
     fun getTitles(): String? {
         return Gdata
     }
 
+    //初始片段
     private fun initFragments(){
         fragments.add(0,LoginFragment())
         fragments.add(1, LiveHomeFragment())
         fragments.add(2, UserDataFragment())
         fragments.add(3, SearchFragment())
-        supportFragmentManager.beginTransaction().apply {
+        //一開始頁面替換為LiveHome
+        supportFragmentManager.beginTransaction().run {
             replace(R.id.my_container, fragments[1])
             commit()
         }
@@ -89,6 +85,13 @@ class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
 
     //用來指定頁面跳轉
     fun userStateTitle(i:Int){
+        if(i==3){
+            supportFragmentManager.beginTransaction().run {
+                replace(R.id.my_container,fragments[i])
+                commit()
+                true
+            }
+        }
         supportFragmentManager.beginTransaction().run {
             replace(R.id.my_container,fragments[i])
             commit()

@@ -2,16 +2,12 @@ package com.tom.chat
 
 import android.app.AlertDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import com.tom.chat.databinding.FragmentRigisterBinding
 import com.tom.chat.room.UserData
 import com.tom.chat.room.UserDataBase
