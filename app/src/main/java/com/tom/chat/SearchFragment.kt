@@ -1,13 +1,10 @@
 package com.tom.chat
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.SearchView
+import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
@@ -17,19 +14,13 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.tom.chat.databinding.FragmentSearchBinding
-import com.tom.chat.databinding.RowHotroomsBinding
+
 
 class SearchFragment : Fragment() {
-
-
-companion object{
-
-}
-
-
     val roomViewModel by viewModels<SearchViewModel>()
     lateinit var binding:FragmentSearchBinding
-    lateinit var adapter: ChatRoomAdapter
+    lateinit var adapter1: ChatRoomAdapter
+    lateinit var adapter: SearchRoomAdapter
     val viewModel by viewModels<ChatViewModel>()
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,17 +38,41 @@ companion object{
         binding.hotRecycler.setHasFixedSize(true)
         //設定水平列表為２
         binding.hotRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-        adapter = ChatRoomAdapter()
+        adapter = SearchRoomAdapter()
         binding.hotRecycler.adapter = adapter
+
+        //ViewModel . ChatViewModel獲取數據
+        roomViewModel.searchRooms.observe(viewLifecycleOwner) { rooms ->
+            //呼叫並且傳進去房間數據
+            adapter.submitRooms(rooms)
+        }
+        /////
+        binding.hot2.setHasFixedSize(true)
+        //設定水平列表為２
+        binding.hot2.layoutManager = GridLayoutManager(requireContext(), 2)
+        adapter1 = ChatRoomAdapter()
+        binding.hot2.adapter = adapter1
 
         //ViewModel . ChatViewModel獲取數據
         viewModel.chatRooms.observe(viewLifecycleOwner) { rooms ->
             //呼叫並且傳進去房間數據
-            adapter.submitRooms(rooms)
+            adapter1.submitRooms1(rooms)
         }
-        //var adapter1 = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, lightYear)
-       // binding.listView.adapter = adapter1
+        viewModel.getAllRooms()
+        //var adapter1 = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, emptyList)
+        // binding.listView.adapter = adapter1
+        //var adapter1 = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1, bestCities)
 
+        //binding.tvSerachtext.visibility = View.GONE
+        binding.hotRecycler.visibility = View.GONE
+        binding.searchView.setOnCloseListener(object : SearchView.OnCloseListener{
+            override  fun onClose(): Boolean {
+                binding.hotRecycler.visibility = View.GONE
+               // binding.tvHot.visibility = View.VISIBLE
+                //binding.hot2.visibility = View.VISIBLE
+                return false
+            }
+        })
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 val keywords = binding.searchView.query.toString()
@@ -68,32 +83,40 @@ companion object{
                 //通过首字符筛选内容
                 //adapter1.filter.filter(p0)
                 val keywords = binding.searchView.query.toString()
+                if(keywords ==""){
+                    //binding.tvSerachtext.visibility = View.GONE
+                   binding.hotRecycler.visibility = View.GONE
+                   /// binding.hot2.visibility = View.VISIBLE
+
+                }else {
+                  //  binding.tvSerachtext.visibility = View.VISIBLE
+                    binding.hotRecycler.visibility = View.VISIBLE
+                  //  binding.hot2.visibility = View.GONE
+                   // binding.tvHot.visibility = View.GONE
+                }
+
                 roomViewModel.getSearchRooms(keywords)
                 return false
             }
         })
-//        binding.hotRecycler.setHasFixedSize(true)
-//        //設定水平列表為２
-//        binding.hotRecycler.layoutManager = GridLayoutManager(requireContext(), 2)
-//        adapter = ChatRoomAdapter()
-//        binding.hotRecycler.adapter = adapter
 
-       // viewModel.getAllRooms()
+
     }
-    inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolder>() {
-
+    inner class SearchRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolderr>() {
         val searchRooms = mutableListOf<Lightyear>()
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatRoomViewHolder {
-            val binding = RowHotroomsBinding.inflate(layoutInflater,parent,false)
-            return ChatRoomViewHolder(binding)
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatRoomViewHolderr {
+            val view = layoutInflater.inflate(
+                R.layout.row_hotrooms, parent, false)
+            return ChatRoomViewHolderr(view)
         }
         //設置圖片
         val option = RequestOptions()
             .error(R.mipmap.ic_launcher_round)
             .transform(CenterCrop(), RoundedCorners(50))
 
-        override fun onBindViewHolder(holder: ChatRoomViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: ChatRoomViewHolderr, position: Int) {
             val lightYear= searchRooms[position]
+
             holder.title.text = lightYear.stream_title
             holder.nickname.text = lightYear.nickname
             Glide.with(this@SearchFragment)//參考：https://blog.csdn.net/Simon_YDS/article/details/108106764
@@ -113,15 +136,62 @@ companion object{
         fun submitRooms(rooms: List<Lightyear>) {
             searchRooms.clear()
             searchRooms.addAll(rooms)
+            emptyList.addAll(rooms)
             notifyDataSetChanged()
         }
+
     }
+    var emptyList = mutableListOf<Lightyear>()
+
+    inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolderr>() {
+
+        val chatRooms = mutableListOf<Lightyear>()
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatRoomViewHolderr {
+            val view = layoutInflater.inflate(
+                R.layout.row_hotrooms, parent, false)
+            return ChatRoomViewHolderr(view)
+        }
+        //設置圖片
+        val option = RequestOptions()
+            .error(R.mipmap.ic_launcher_round)
+            .transform(CenterCrop(),RoundedCorners(50))
+
+        override fun onBindViewHolder(holder: ChatRoomViewHolderr, position: Int) {
+            val lightYear= chatRooms[position]
+            holder.title.text = lightYear.stream_title
+            holder.nickname.text = lightYear.nickname
+            Glide.with(this@SearchFragment)//參考：https://blog.csdn.net/Simon_YDS/article/details/108106764
+                .applyDefaultRequestOptions(option)
+                .load(lightYear.head_photo)
+                .into(holder.headpic)
+
+            //個人房間點擊
+            holder.itemView.setOnClickListener {
+                chatRoomClicked(lightYear)
+            }
+        }
+        fun submitRooms1(rooms: List<Lightyear>) {
+            chatRooms.clear()
+            chatRooms.addAll(rooms)
+            emptyList.addAll(rooms)
+            notifyDataSetChanged()
+        }
+        override fun getItemCount(): Int {
+            return chatRooms.size
+        }
+
+    }
+
+
+
+
+
     /////
     //獲取房間資料
-    inner class ChatRoomViewHolder(val binding: RowHotroomsBinding): RecyclerView.ViewHolder(binding.root){
-        val title = binding.tvTitle
-        val nickname = binding.tvName
-        val headpic = binding.imageView
+    inner class ChatRoomViewHolderr(view: View) : RecyclerView.ViewHolder(view){
+        val title = view.findViewById<TextView>(R.id.tv_title)
+        val nickname = view.findViewById<TextView>(R.id.tv_name)
+        val headpic = view.findViewById<ImageView>(R.id.imageView)
     }
     //轉換各自房間
     fun chatRoomClicked(lightyear : Lightyear) {
@@ -132,4 +202,6 @@ companion object{
             .commit()
         hide.binding.bottomNavBar.visibility = View.GONE
     }
+
+
 }

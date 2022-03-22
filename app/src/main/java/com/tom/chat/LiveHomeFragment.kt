@@ -48,6 +48,8 @@ class LiveHomeFragment :Fragment() {
 
     //需繼承 並覆寫方法
     // /
+
+
 inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolder>() {
     val chatRooms = mutableListOf<Lightyear>()
 

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.tom.chat.databinding.ActivityMainBinding
 
 
+
 class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
     //設置初始
     companion object {

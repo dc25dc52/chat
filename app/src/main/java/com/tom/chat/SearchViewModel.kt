@@ -15,11 +15,14 @@ class SearchViewModel : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             val json = URL("https://api.jsonserve.com/qHsaqy").readText()
             val response = Gson().fromJson(json, ChatRooms::class.java)
+           // println("~~"+response)
             val map = mutableMapOf<String, Lightyear>()
             val keyList = mutableListOf<String>()
             val resultRoomsSet = mutableSetOf<Lightyear>()
-
+//ChatRooms(error_code=0, error_text=, result=Result(lightyear_list=[Lightyear(background_image=
             response.result.lightyear_list.forEach {
+//                println(it.stream_id.toString() + "~~~" + it)
+                //設置kiy v存放他整個單一直播數據
                 map.put(it.stream_id.toString(), it)
                 map.put(it.tags,it)
                 map.put(it.stream_title, it)
@@ -32,21 +35,24 @@ class SearchViewModel : ViewModel() {
 
             if ( key == ""){
                 resultRoomsSet.clear()
-                println("清除1")
+                searchRooms.postValue(response.result.lightyear_list)
             } else {
                 resultRoomsSet.clear()
                 keyList.forEach {
+                    //用list搜尋 key是否在list之中 list存放的是各內容的名
                     if ( key in it){
-                        println("清除2")
+                        //在it的其中一個 就該索引 對應 加進新的集合
                         map[it]?.let {
                             resultRoomsSet.add(it)
+                         //這裡將資料加進集合
                         }
                     }
                 }
+                searchRooms.postValue(resultRoomsSet.toList())
             }
-          //  searchRooms.postValue(resultRoomsSet.toList())
-            //卡在這
-            searchRooms.postValue(response.result.lightyear_list)
+
+
+
         }
     }
 }
