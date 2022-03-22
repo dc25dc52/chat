@@ -1,5 +1,6 @@
 package com.tom.chat
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -25,14 +26,25 @@ class MainActivity : AppCompatActivity(),LoginFragment.SendListener{
 //        var dataBase = Room.databaseBuilder(this, UserDataBase::class.java,
 //            "user5.db").build()
     Log.d("MainActivity","Gdata:$Gdata")
-
+    println("執行")
     //初始設置用戶狀態
-    if(Gdata.length != 0){
+//    if(Gdata.length != 0){
+    if(Gdata != "訪客"){
         binding.textView.setVisibility(View.VISIBLE)
         binding.textView.text = "用戶：$Gdata"
     }else{
         binding.textView.text = "用戶：訪客"
+        val spf =
+            getSharedPreferences("userData", Context.MODE_PRIVATE)
+        spf.edit()
+            .putString("nikeName", "訪客")
+            .apply()
+
+
     }
+        val sss = getSharedPreferences("userData", Context.MODE_PRIVATE)
+
+        println("${ sss.getString("nikeName","00")}")
        initFragments()
 
     binding.bottomNavBar.setOnItemSelectedListener {

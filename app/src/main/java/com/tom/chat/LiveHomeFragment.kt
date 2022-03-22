@@ -35,20 +35,24 @@ class LiveHomeFragment :Fragment() {
         binding.recycler.setHasFixedSize(true)
         //設定水平列表為２
         binding.recycler.layoutManager = GridLayoutManager(requireContext(), 2)
-        adapter = ChatRoomAdapter()
-        binding.recycler.adapter = adapter
+        adapter = ChatRoomAdapter() //呼叫inner的下方 方法 並且存進去
+        binding.recycler.adapter = adapter  //將元件存進去recycler
 
         //ViewModel . ChatViewModel獲取數據
         viewModel.chatRooms.observe(viewLifecycleOwner) { rooms ->
             //呼叫並且傳進去房間數據
             adapter.submitRooms(rooms)
+            //應該相當於刷新數據用的 清空後 再放入新的
         }
         viewModel.getAllRooms()
     }
 
     //需繼承 並覆寫方法
     // /
-
+// 建立一個所需類別取名叫 ChatRoomAdapter
+    // 因為他是抽象類別，所以一定要覆寫他的固定方法
+    // 分別是 onCreateViewHolder, onBindViewHolder, getItemCount
+    // 必須有一個畫面外的暫存器 ViewHolder
 
 inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolder>() {
     val chatRooms = mutableListOf<Lightyear>()
@@ -56,12 +60,14 @@ inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatRoomViewHolder {
         val binding = RowHotroomsBinding.inflate(layoutInflater,parent,false)
         return ChatRoomViewHolder(binding)
-    }
+    }//這邊主要用於連接布局檔以生成、return view等操作
     //設置圖片
     val option = RequestOptions()
         .error(R.mipmap.ic_launcher_round)
         .transform(CenterCrop(),RoundedCorners(50))
 
+    // 如裡面元件要做事，寫在這裡
+    ////這邊用於控制元件的顯示及資料等操作
     override fun onBindViewHolder(holder: ChatRoomViewHolder, position: Int) {
         val lightYear= chatRooms[position]
         holder.title.text = lightYear.stream_title
@@ -81,13 +87,16 @@ inner class ChatRoomAdapter : RecyclerView.Adapter<ChatRoomViewHolder>() {
         return chatRooms.size
     }
     fun submitRooms(rooms: List<Lightyear>) {
-        chatRooms.clear()
+        println("submitRoomssubmitRoomssubmitRooms")
+       chatRooms.clear()
         chatRooms.addAll(rooms)
         notifyDataSetChanged()
     }
 }
 /////
     //獲取房間資料
+// ViewHolder的 Binding寫法
+// binding.root代表所有畫面的最上層(根)
     inner class ChatRoomViewHolder(val binding: RowHotroomsBinding):RecyclerView.ViewHolder(binding.root){
         val title = binding.tvTitle
         val nickname = binding.tvName

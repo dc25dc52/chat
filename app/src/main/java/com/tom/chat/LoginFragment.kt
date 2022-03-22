@@ -48,6 +48,11 @@ class LoginFragment : Fragment() {
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val spf =
+            requireContext().getSharedPreferences("userData", Context.MODE_PRIVATE)
+        spf.edit()
+            .putString("nikeName", "訪客")
+            .apply()
         val pref = requireContext().getSharedPreferences("chat",Context.MODE_PRIVATE)
         val checked = pref.getBoolean("rem_username", false)
         binding.cbRemember.isChecked = checked

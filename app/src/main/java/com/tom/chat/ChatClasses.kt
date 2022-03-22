@@ -2,11 +2,16 @@ package com.tom.chat
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
-
+data class MessageSend(val action:String, val content: String)
 data class ChatRooms(
     val error_code: String,
     val error_text: String,
     val result: Result
+)
+data class MsgData(
+    val body: Body,
+    val nickname: String,
+    val text :String
 )
 
 data class Result(
